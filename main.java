@@ -17,12 +17,13 @@ public class main extends JFrame{
 	JButton snode;
 	JButton enode;
 	JButton reset;
+	static int rerun = 0;
 	main(int w,int h){
 		this.setSize(w,h);
 
 		display dis = new display(w,h-60);
 		dis.setBounds(0,60,w,h-60);
-		dis.setLayout(new FlowLayout());
+		dis.setLayout(null);
 		dis.setVisible(true);
 
 		// buttons			
@@ -46,7 +47,17 @@ public class main extends JFrame{
 		run.setBounds(160,10,80,40);
 		run.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				dis.start();
+				if(rerun ==0){
+					if(dis.start()==0){
+						rerun = 1;
+						((JButton)e.getSource()).setText("Clean");
+					}
+				}else{
+					dis.clean();
+					rerun = 0;
+					((JButton)e.getSource()).setText("Run");
+
+				}
 			}
 		});	
 
@@ -55,6 +66,7 @@ public class main extends JFrame{
 		reset.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				dis.reset();
+				run.setText("Run");
 			}
 		});	
 		//button end heres
@@ -64,7 +76,7 @@ public class main extends JFrame{
 		zoom.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e){
 				int val = ((JSlider)e.getSource()).getValue();
-				System.out.println(val);
+				// System.out.println(val);
 				dis.setboxno(val);
 
 			}
@@ -73,7 +85,7 @@ public class main extends JFrame{
 		speed.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e){
 				int val = ((JSlider)e.getSource()).getValue();
-				System.out.println(20-val);
+				// System.out.println(20-val);
 				dis.setspeed(20-val);
 			}
 		});
@@ -93,7 +105,7 @@ public class main extends JFrame{
 		control = new JPanel();
 		buttons = new JPanel();
 		sliders = new JPanel();
-		control.setBounds(0,0,w,60);
+		control.setBounds(5,0,w,60);
 		control.setLayout(null);
 		// control.setBackground(Color.GRAY);
 		control.setVisible(true);
@@ -130,5 +142,11 @@ public class main extends JFrame{
 		main a = new main(600,660);
 		a.setLayout(null);
 		a.setVisible(true);
+		a.addWindowListener(new WindowAdapter(){
+			public void windowClosed(WindowEvent e){
+				System.gc();
+				System.exit(0);
+			}
+		});
 	}
 }

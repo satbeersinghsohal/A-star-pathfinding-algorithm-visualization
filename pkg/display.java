@@ -7,24 +7,33 @@ import java.awt.event.*;
 import pkg.*;
 
 
-public class display extends JPanel implements MouseMotionListener , MouseListener, KeyListener{
+public class display extends JPanel implements MouseMotionListener , MouseListener{
 	int w;
 	int h;
 	public static int boxno=20;
 	static int arr[][];
 	int reset = 0;
+	int refresh = 0;
+	// int rerun = 0;
 	static int b;
 	node start,end;
 	public static int colorvalue=0;
+	JLabel path;
+	algo a;
 
 	public display(int w,int h){
 		this.w = w;
 		this.h = h;
 		this.b = w/boxno;
 		arr = new int[50][50];
+		path = new JLabel("Path not found");
+		path.setBounds(200,230,250,100);
+		path.setFont(new Font("TimesRoman",Font.PLAIN,30));
+		path.setVisible(false);
+		add(path);
 		addMouseMotionListener(this);
 		addMouseListener(this);
-		addKeyListener(this);
+		
 	}
 	
 	public void setboxno(int val){
@@ -37,12 +46,17 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 		// repaint();
 	}
 	public void paintComponent(Graphics g){
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,w,h);
 		for(int i=0;i<boxno;i++){
 			for(int j=0;j<boxno;j++){
 				Color color = Color.WHITE;
 				if(reset == 0){
 					arr[i][j]=0;
 				}else{
+					if(refresh == 0 && arr[i][j] > 3){
+						arr[i][j]=0;
+					}
 					switch(arr[i][j]){
 						case 0: color = Color.WHITE;break;
 						case 1: color = Color.BLACK;break;
@@ -59,24 +73,49 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 				g.setColor(Color.BLACK);
 				g.drawRect(i*b,j*b,b,b);
 				if(start != null && start.x == i&& start.y == j ){
-					g.drawString("S",i*b+b/2,j*b+b/2);
+					g.fillRect(i*b+b/2-b/4,j*b+b/2-b/4,b/2,b/2);
+					
 				}
 				if(end   != null && end.x == i&& end.y == j){
-					g.drawString("E",i*b+b/2,j*b+b/2);	
+					g.fillRect(i*b+b/2-b/4,j*b+b/2-b/4,b/2,b/2);
+					System.out.println("ENDnode"+arr[i][j]);
+						
 				}
 			}
 		}
 		reset = 1;
+		refresh = 1;
 		repaint();
 	}
 
-	public void start(){
+	public int start(){
 		Graphics g = getGraphics();
-		 algo a = new algo(start,end,g,b);
+		if(start!=null && end!=null){
+
+			a = new algo(start,end,g,b);
+			if(a.start()==1){
+				System.out.println("pathnotfound");
+				path.setVisible(true);
+			}else{
+				System.out.println("pathfound");
+			}
+		}else{
+			return 1;
+		}
+		return 0;
+	}
+
+	public void clean(){
+		refresh = 0;
+		repaint();
+		path.setVisible(false);
 	}
 	public void reset(){
 		// a = null;
 		reset = 0;
+		refresh = 0;
+		// rerun = 0;
+		path.setVisible(false);
 		start = null;
 		end = null;
 		repaint();
@@ -102,8 +141,12 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 				switch(colorvalue){
 					case 0: color = Color.WHITE;break;
 					case 1: color = Color.BLACK;break;
-					case 2: color = Color.RED;  break;
+					case 2: color = Color.YELLOW;  break;
 					case 3: color = Color.ORANGE;break;
+					case 4: color = Color.BLUE;break;
+					case 5: color = Color.GREEN;break;
+					case 6: color = Color.RED;break;
+					case 7: color = Color.MAGENTA;break;
 				}
 				g.setColor(color);
 				g.fillRect(i*b,j*b,b,b);
@@ -151,20 +194,8 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
     	System.out.println("mouseexit");
     }  
     public void mouseReleased(MouseEvent e) {}  
-    public void keyReleased(KeyEvent e){
-    	System.out.println(e);
-    }
-    public void keyPressed(KeyEvent e){
-    	System.out.println(e);
-
-    }
-    public void keyTyped(KeyEvent e){
-    	if(e.getKeyChar() == 's'){
-    		System.out.println("it in");
-    	}
-    	System.out.println(e);
-
-    }
+   
+    
 
 
 }

@@ -19,7 +19,7 @@ public class algo{
 		this.g     = g;
 		this.b     = b;
 		calculatestartandend();
-		start();
+		// start();
 	}
 
 	public double finddistance(node a,node b){
@@ -135,9 +135,6 @@ public class algo{
 			
 			openset.remove(current);
 			closeset.add(current);
-			try{
-				TimeUnit.MILLISECONDS.sleep(speed);
-			}catch(Exception e){}
 
 			findminneighbor(current);
 			drawbox(current,5);
@@ -145,7 +142,7 @@ public class algo{
 			// System.out.println("line109 current:"+current.x+" "+current.y+" "+current.f);
 		}
 		if(path){
-			showpathnotfound();
+			return 1;
 		}
 		return 0;
 	}
@@ -186,6 +183,9 @@ public class algo{
 			g.drawString(s,i*b+2,j*b+b/3);
 			g.drawString(s1,i*b+2,j*b+b*2/3);
 		}
+		try{
+				TimeUnit.MILLISECONDS.sleep(speed);
+			}catch(Exception e){}
 
 	}
 	void buildpath(node current){
@@ -193,10 +193,6 @@ public class algo{
 			current = camefrom.get(current);
 			drawbox(current,4);
 		}
-	}
-
-	void showpathnotfound(){
-		g.setFont(new Font("TimesRoman",Font.PLAIN,30));
-		g.drawString("PATH NOT FOUND",300,300);
+		// display.refresh = 1;
 	}
 }
