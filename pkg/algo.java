@@ -3,9 +3,11 @@ package pkg;
 import java.util.*;
 import java.awt.*;
 import pkg.*;
+import java.util.concurrent.TimeUnit;
 
 public class algo{
 	node start,end,current;
+	static int speed=0;
 	HashSet<node> openset  = new HashSet<node>();
 	HashSet<node> closeset = new HashSet<node>();
 	HashMap<node, node> camefrom = new HashMap<>();
@@ -91,7 +93,6 @@ public class algo{
 				camefrom.put(neighbor,a);
 				openset.add(neighbor);
 				drawbox(neighbor,6);
-
 			}
 		}
 		// System.out.println("choosen:"+min.x+" "+min.y+" "+min.f+" "+min.h );
@@ -134,6 +135,10 @@ public class algo{
 			
 			openset.remove(current);
 			closeset.add(current);
+			try{
+				TimeUnit.MILLISECONDS.sleep(speed);
+			}catch(Exception e){}
+
 			findminneighbor(current);
 			drawbox(current,5);
 			

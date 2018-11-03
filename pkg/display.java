@@ -32,6 +32,10 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 		b = w/boxno;
 		repaint();
 	}
+	public void setspeed(int val){
+		algo.speed = val;
+		// repaint();
+	}
 	public void paintComponent(Graphics g){
 		for(int i=0;i<boxno;i++){
 			for(int j=0;j<boxno;j++){
