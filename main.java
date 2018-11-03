@@ -54,7 +54,7 @@ public class main extends JFrame{
 		//button end heres
 		//zoom slider
 
-		JSlider zoom = new JSlider(JSlider.HORIZONTAL,10,50,40);
+		JSlider zoom = new JSlider(JSlider.HORIZONTAL,10,50,20);
 		zoom.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e){
 				int val = ((JSlider)e.getSource()).getValue();

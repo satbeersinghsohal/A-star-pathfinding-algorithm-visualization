@@ -90,7 +90,7 @@ public class algo{
 				}
 				camefrom.put(neighbor,a);
 				openset.add(neighbor);
-				drawbox(neighbor,0);
+				drawbox(neighbor,6);
 
 			}
 		}
@@ -100,13 +100,16 @@ public class algo{
 
 
 	public int start(){
+		boolean path = true;
 		int count = 0;
 		openset.add(start);
 		current = start;
 		node nodesave = null;
-		while(!openset.isEmpty()&&count < 4 ){
+		while(!openset.isEmpty()){
+
 			if(current.isequal(end)){
 				buildpath(current);
+				path = false;
 				break;
 			}
 
@@ -132,29 +135,40 @@ public class algo{
 			openset.remove(current);
 			closeset.add(current);
 			findminneighbor(current);
-			drawbox(current,1);
+			drawbox(current,5);
 			
 			// System.out.println("line109 current:"+current.x+" "+current.y+" "+current.f);
 		}
-
+		if(path){
+			showpathnotfound();
+		}
 		return 0;
 	}
-	public void drawbox(node current,int c){
-		Color color = Color.RED;
-		if(c==1){
-			color = Color.GREEN;
-		}else if(c ==2){
-			color = Color.BLUE;
+
+	Color setcolor(int i,int j,int c){
+		Color color = Color.WHITE;
+		switch(c){
+				case 0: color = Color.WHITE;break;
+				case 1: color = Color.BLACK;break;
+				case 2: color = Color.YELLOW;break;
+				case 3: color = Color.ORANGE;break;
+				case 4: color = Color.BLUE; break;
+				case 5: color = Color.GREEN;break;
+				case 6: color = Color.RED;  break;
 		}
-		// switch(c){
-		// 		case 0: color = Color.WHITE;break;
-		// 		case 1: color = Color.BLACK;break;
-		// 		case 2: color = Color.RED;  break;
-		// 		case 3: color = Color.ORANGE;break;
-		// 		case 4: color = Color.BLUE;break;
-			// }
+		display.arr[i][j] = c;
+		return color;
+	}
+
+	public void drawbox(node current,int c){
+		if(current.isequal(start)){
+			return;
+		}else if(current.isequal(end)){
+			return;
+		}
 		int i = current.x;
 		int j = current.y;
+		Color color = setcolor(i,j,c);
 		// System.out.println("drawbox"+i+" "+j+" "+current.f);
 		g.setColor(color);
 		g.fillRect(i*b,j*b,b,b);
@@ -167,13 +181,17 @@ public class algo{
 			g.drawString(s,i*b+2,j*b+b/3);
 			g.drawString(s1,i*b+2,j*b+b*2/3);
 		}
-		display.arr[i][j] = c;
 
 	}
 	void buildpath(node current){
 		while(camefrom.containsKey(current)){
 			current = camefrom.get(current);
-			drawbox(current,2);
+			drawbox(current,4);
 		}
+	}
+
+	void showpathnotfound(){
+		g.setFont(new Font("TimesRoman",Font.PLAIN,30));
+		g.drawString("PATH NOT FOUND",300,300);
 	}
 }

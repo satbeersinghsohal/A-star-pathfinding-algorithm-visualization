@@ -10,7 +10,7 @@ import pkg.*;
 public class display extends JPanel implements MouseMotionListener , MouseListener, KeyListener{
 	int w;
 	int h;
-	public static int boxno=10;
+	public static int boxno=20;
 	static int arr[][];
 	int reset = 0;
 	static int b;
@@ -26,6 +26,7 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 		addMouseListener(this);
 		addKeyListener(this);
 	}
+	
 	public void setboxno(int val){
 		boxno = val;
 		b = w/boxno;
@@ -41,17 +42,28 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 					switch(arr[i][j]){
 						case 0: color = Color.WHITE;break;
 						case 1: color = Color.BLACK;break;
-						case 2: color = Color.RED;  break;
+						case 2: color = Color.YELLOW;  break;
 						case 3: color = Color.ORANGE;break;
+						case 4: color = Color.BLUE;break;
+						case 5: color = Color.GREEN;break;
+						case 6: color = Color.RED;break;
+						case 7: color = Color.MAGENTA;break;
 					}
 				}
 				g.setColor(color);
 				g.fillRect(i*b,j*b,b,b);
 				g.setColor(Color.BLACK);
 				g.drawRect(i*b,j*b,b,b);
+				if(start != null && start.x == i&& start.y == j ){
+					g.drawString("S",i*b+b/2,j*b+b/2);
+				}
+				if(end   != null && end.x == i&& end.y == j){
+					g.drawString("E",i*b+b/2,j*b+b/2);	
+				}
 			}
 		}
 		reset = 1;
+		repaint();
 	}
 
 	public void start(){
