@@ -107,17 +107,14 @@ public class main extends JFrame{
 		sliders = new JPanel();
 		control.setBounds(5,0,w,60);
 		control.setLayout(null);
-		// control.setBackground(Color.GRAY);
 		control.setVisible(true);
 		
 		buttons.setBounds(0,0,(int)(w*0.6),60);
 		buttons.setLayout(null);
-		// buttons.setBackground(Color.GRAY);
 		buttons.setVisible(true);
 
 		sliders.setBounds((int)(w*0.6),0,w,60);
 		sliders.setLayout(null);
-		// sliders.setBackground(Color.GRAY);
 		sliders.setVisible(true);
 
 		buttons.add(enode);
@@ -142,11 +139,6 @@ public class main extends JFrame{
 		main a = new main(600,660);
 		a.setLayout(null);
 		a.setVisible(true);
-		a.addWindowListener(new WindowAdapter(){
-			public void windowClosed(WindowEvent e){
-				System.gc();
-				System.exit(0);
-			}
-		});
+		a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

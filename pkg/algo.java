@@ -105,7 +105,7 @@ public class algo{
 		int count = 0;
 		openset.add(start);
 		current = start;
-		node nodesave = null;
+
 		while(!openset.isEmpty()){
 
 			if(current.isequal(end)){
@@ -114,7 +114,6 @@ public class algo{
 				break;
 			}
 
-			nodesave = current;
 			Iterator<node>it = openset.iterator();
 			current = null;
 			while(it.hasNext()){
@@ -124,25 +123,16 @@ public class algo{
 				}else if(current.f == temp.f && current.g > temp.g){
 					current = temp;
 				}
-				// System.out.printf("openlist:%d %d %f\n",temp.x,temp.y,temp.f);
 			}
-			if(current.isequal(nodesave)){
-				count++;
-			}
-			// System.out.println("choosen current:"+current.x+" "+current.y+" "+current.f);
-
-			// current = min;
 			
 			openset.remove(current);
 			closeset.add(current);
 
 			findminneighbor(current);
-			drawbox(current,5);
-			
-			// System.out.println("line109 current:"+current.x+" "+current.y+" "+current.f);
+			drawbox(current,5);			
 		}
 		if(path){
-			return 1;
+			return 1;//if path not found return 1 so calling function know that pathis not available
 		}
 		return 0;
 	}
@@ -171,11 +161,12 @@ public class algo{
 		int i = current.x;
 		int j = current.y;
 		Color color = setcolor(i,j,c);
-		// System.out.println("drawbox"+i+" "+j+" "+current.f);
+
 		g.setColor(color);
 		g.fillRect(i*b,j*b,b,b);
 		g.setColor(Color.BLACK);
 		g.drawRect(i*b,j*b,b,b);
+
 		if(display.boxno == 10){
 			String s = String.format("%d %d" ,(int)current.g,(int)current.h);
 			String s1 = String.format("%d" ,(int)current.f);
@@ -183,9 +174,9 @@ public class algo{
 			g.drawString(s,i*b+2,j*b+b/3);
 			g.drawString(s1,i*b+2,j*b+b*2/3);
 		}
-		try{
-				TimeUnit.MILLISECONDS.sleep(speed);
-			}catch(Exception e){}
+		try{	
+			TimeUnit.MILLISECONDS.sleep(speed);
+		}catch(Exception e){}
 
 	}
 	void buildpath(node current){

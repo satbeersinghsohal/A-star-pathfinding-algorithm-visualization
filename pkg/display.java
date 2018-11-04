@@ -10,27 +10,28 @@ import pkg.*;
 public class display extends JPanel implements MouseMotionListener , MouseListener{
 	int w;
 	int h;
-	public static int boxno=20;
-	static int arr[][];
-	int reset = 0;
 	int refresh = 0;
-	// int rerun = 0;
-	static int b;
+	int reset = 0;
 	node start,end;
-	public static int colorvalue=0;
-	JLabel path;
 	algo a;
+	JLabel path;
+	static int b;
+	static int arr[][];
+	public static int boxno=20;
+	public static int colorvalue=0;
 
 	public display(int w,int h){
 		this.w = w;
 		this.h = h;
 		this.b = w/boxno;
+		
 		arr = new int[50][50];
 		path = new JLabel("Path not found");
 		path.setBounds(200,230,250,100);
 		path.setFont(new Font("TimesRoman",Font.PLAIN,30));
 		path.setVisible(false);
 		add(path);
+
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		
@@ -41,10 +42,11 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 		b = w/boxno;
 		repaint();
 	}
+
 	public void setspeed(int val){
 		algo.speed = val;
-		// repaint();
 	}
+
 	public void paintComponent(Graphics g){
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,w,h);
@@ -78,20 +80,17 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 				}
 				if(end   != null && end.x == i&& end.y == j){
 					g.fillRect(i*b+b/2-b/4,j*b+b/2-b/4,b/2,b/2);
-					System.out.println("ENDnode"+arr[i][j]);
 						
 				}
 			}
 		}
 		reset = 1;
 		refresh = 1;
-		repaint();
 	}
 
 	public int start(){
 		Graphics g = getGraphics();
 		if(start!=null && end!=null){
-
 			a = new algo(start,end,g,b);
 			if(a.start()==1){
 				System.out.println("pathnotfound");
@@ -132,27 +131,11 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
 				start = null;	
 			}else if(colorvalue < 2 && end != null && end.isat(i,j)){
 				end = null;
-				
 			}else if(colorvalue >= 2){
 				colorvalue = 1;
 			}
-				Graphics g = getGraphics();
-				Color color = Color.WHITE;
-				switch(colorvalue){
-					case 0: color = Color.WHITE;break;
-					case 1: color = Color.BLACK;break;
-					case 2: color = Color.YELLOW;  break;
-					case 3: color = Color.ORANGE;break;
-					case 4: color = Color.BLUE;break;
-					case 5: color = Color.GREEN;break;
-					case 6: color = Color.RED;break;
-					case 7: color = Color.MAGENTA;break;
-				}
-				g.setColor(color);
-				g.fillRect(i*b,j*b,b,b);
-				g.setColor(Color.BLACK);
-				g.drawRect(i*b,j*b,b,b);
-				arr[i][j]=colorvalue;
+			arr[i][j]=colorvalue;
+			repaint();	
 		}
 	}
 	
@@ -194,8 +177,4 @@ public class display extends JPanel implements MouseMotionListener , MouseListen
     	System.out.println("mouseexit");
     }  
     public void mouseReleased(MouseEvent e) {}  
-   
-    
-
-
 }
